@@ -2,7 +2,7 @@ import { NextApiResponse } from 'next';
 
 export abstract class RouteError extends Error {
   protected abstract STATUS_CODE: number;
-  protected constructor(message: string = '') {
+  public constructor(message: string = '') {
     super(message);
     this.name = this.constructor.name;
   }
