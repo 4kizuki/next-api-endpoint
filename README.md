@@ -1,6 +1,6 @@
 # Next API Composer
 
-Your implementations of `API Routes` for `Next.js` applications will be much easier with this library.
+Your implementations of [API Routes](https://nextjs.org/docs/api-routes/introduction) for your [Next.js](https://nextjs.org) applications will be much easier with this library.
 
 
 You have to code the API Routes like:
