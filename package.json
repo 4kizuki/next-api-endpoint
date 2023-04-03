@@ -6,8 +6,13 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
+  "keywords": [
+    "next",
+    "nextjs"
+  ],
   "author": "Shōsei Yū <4kizuki@h4dz.io>",
   "license": "MIT",
   "files": [
