@@ -54,3 +54,4 @@ export function nextApi<
 
 export * from './StatusCode/400';
 export * from './StatusCode/500';
+export * from './StatusCode/RouteError';
