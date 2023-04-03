@@ -1,17 +1,23 @@
-import { NextApiHandler } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { RouteError } from './StatusCode/RouteError';
+import { Sendable } from './types';
 
 const methods = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'] as const;
 type Method = (typeof methods)[number];
+type HandlerType<TReq, TRes> = (req: TReq, res: TRes) => unknown | Promise<unknown>;
 
-export function nextApi(handlers: {
-  [key in Method]?: NextApiHandler;
-}): NextApiHandler {
+export function nextApi<
+  TReq extends { method?: string } = NextApiRequest,
+  TRes extends Sendable = NextApiResponse
+>(handlers: {
+  [key in Method]?: HandlerType<TReq, TRes>;
+}): HandlerType<TReq, TRes> {
   const supported = methods.filter(m => handlers[m] !== undefined);
 
   if (supported.length === 0)
     return async (req, res) => {
-      res.status(404).send(null);
+      res.status(404);
+      res.send(null);
       return;
     };
 
