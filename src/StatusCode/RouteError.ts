@@ -9,6 +9,10 @@ export abstract class RouteError extends Error {
 
   public send(res: Sendable) {
     res.status(this.STATUS_CODE);
-    res.send(this.message && { message: this.message });
+    if (this.message) {
+      res.send({ message: this.message });
+    } else {
+      res.end();
+    }
   }
 }

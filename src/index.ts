@@ -1,10 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { RouteError } from './StatusCode/RouteError';
-import { Sendable } from './types';
-
-const methods = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'] as const;
-type Method = (typeof methods)[number];
-type HandlerType<TReq, TRes> = (req: TReq, res: TRes) => unknown | Promise<unknown>;
+import { HandlerType, Method, methods, Sendable } from './types';
 
 export function nextApi<
   TReq extends { method?: string } = NextApiRequest,
@@ -17,7 +13,7 @@ export function nextApi<
   if (supported.length === 0)
     return async (req, res) => {
       res.status(404);
-      res.send(null);
+      res.end();
       return;
     };
 
@@ -36,7 +32,7 @@ export function nextApi<
       // OPTIONS or unsupported Methods
       res.status(req.method === 'OPTIONS' ? 204 : 405);
       res.setHeader('Allow', supported.join(', '));
-      res.send(null);
+      res.end();
       return;
     } catch (e: unknown) {
       if (e instanceof RouteError) {
@@ -45,7 +41,7 @@ export function nextApi<
       }
 
       res.status(500);
-      res.send(null);
+      res.end();
       console.error('HTTP500 Internal Error (Uncaught Exception)', __filename, e);
       return;
     }

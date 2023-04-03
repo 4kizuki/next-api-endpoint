@@ -1,5 +1,5 @@
 import { RouteError } from './RouteError';
-import { NextApiResponse } from 'next';
+import { Sendable } from '../types';
 
 export class HTTP500InternalError extends RouteError {
   protected STATUS_CODE = 500;
@@ -8,8 +8,9 @@ export class HTTP500InternalError extends RouteError {
     super(message);
   }
 
-  public send(res: NextApiResponse) {
-    res.status(this.STATUS_CODE).send(null);
+  public send(res: Sendable) {
+    res.status(this.STATUS_CODE);
+    res.end();
     console.error('HTTP500 Internal Error (Thrown)', this.message, this.originalError);
   }
 }
